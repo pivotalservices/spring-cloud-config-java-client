@@ -22,7 +22,7 @@ import static org.junit.Assert.*;
 // Explicitly enable config client because test classpath has config server on it
 @SpringBootTest(properties = {"spring.cloud.config.enabled=true",
         "logging.level.org.springframework.retry=TRACE"},
-        classes = TestConfigServerApplication.class)
+        classes = TestConfigClientApplication.class)
 @DirtiesContext
 public class ConfigClientTemplateTests {
 

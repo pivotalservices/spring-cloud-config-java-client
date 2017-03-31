@@ -4,10 +4,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 
 @SpringBootApplication
-public class StandaloneClientApplication {
+public class TestConfigServerApplication {
 
 	public static void main(String[] args) {
-		new SpringApplicationBuilder(StandaloneClientApplication.class).properties(
+		new SpringApplicationBuilder(TestConfigServerApplication.class).properties(
 				"spring.cloud.config.enabled=true").run(args);
 	}
 }

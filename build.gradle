@@ -72,6 +72,7 @@ dependencies {
 
     runtime("org.apache.tomcat:tomcat-dbcp:${tomcatVersion}")
 
+    compile("org.springframework.retry:spring-retry:1.2.0.RELEASE")
     compile("org.springframework.cloud:spring-cloud-starter-config")
     compile("org.springframework.boot:spring-boot-starter-aop")
 

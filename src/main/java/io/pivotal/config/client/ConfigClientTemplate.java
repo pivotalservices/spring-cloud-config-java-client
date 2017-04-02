@@ -158,7 +158,7 @@ public class ConfigClientTemplate<T> implements io.pivotal.config.client.Propert
          */
         protected void addPropertySources(ConfigurableEnvironment environment,
                                           ResourceLoader resourceLoader) {
-            RandomValuePropertySource.addToEnvironment(environment);
+//            RandomValuePropertySource.addToEnvironment(environment);
             try {
                 new Loader(environment, resourceLoader).load();
             }

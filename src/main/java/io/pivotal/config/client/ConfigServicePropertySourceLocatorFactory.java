@@ -27,7 +27,7 @@ public class ConfigServicePropertySourceLocatorFactory {
             profiles = new String[]{"default"};
         }
         Map<String, Object> defaultProperties = new HashMap<>();
-        defaultProperties.put("spring.application.name", app);
+                defaultProperties.put("spring.application.name", app != null ? app : System.getenv("SPRING_APPLICATION_NAME") != null ? System.getenv("SPRING_APPLICATION_NAME") : "application");
         environment.getPropertySources()
                 .addLast(new MapPropertySource(ConfigClientTemplate.ConfigFileEnvironmentProcessor.DEFAULT_PROPERTIES, defaultProperties));
         for (String profile : profiles) {

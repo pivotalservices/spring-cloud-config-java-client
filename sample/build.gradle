@@ -40,7 +40,7 @@ dependencyManagement {
 }
 
 dependencies {
-    compile("com.github.pivotalservices:spring-cloud-config-java-client:102ae1c")
+    compile("com.github.pivotalservices:spring-cloud-config-java-client:4a3d3d1")
     compile("org.springframework.cloud:spring-cloud-starter-config")
     compile("org.springframework.boot:spring-boot-starter-aop")
     compile("org.springframework.boot:spring-boot-starter-web")

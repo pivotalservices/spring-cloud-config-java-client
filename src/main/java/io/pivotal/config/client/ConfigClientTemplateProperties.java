@@ -1,4 +1,4 @@
-package io.pivotal.config.client.sample;
+package io.pivotal.config.client;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;

@@ -69,11 +69,12 @@ public class ConfigClientTemplateTests {
         ConfigClientTemplate<?> configClientTemplate = new ConfigClientTemplate<CompositePropertySource>("http://localhost:8888", "foo",
                 new String[]{"development, db"});
         CompositePropertySource source = (CompositePropertySource) configClientTemplate.getPropertySource();
-        assertThat("property sources", source.getPropertySources().size(), equalTo(8));
+        assertThat("property sources", source.getPropertySources().size(), equalTo(9));
         assertThat(source.getPropertySources().stream()
                         .map(PropertySource::getName)
                         .collect(toList()),
-                contains("https://github.com/malston/config-repo/foo-db.properties",
+                contains("configClient",
+                        "https://github.com/malston/config-repo/foo-db.properties",
                         "https://github.com/malston/config-repo/foo-development.properties",
                         "https://github.com/malston/config-repo/foo.properties",
                         "https://github.com/malston/config-repo/application.yml",

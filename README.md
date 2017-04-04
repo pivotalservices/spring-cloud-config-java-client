@@ -1,7 +1,7 @@
 # spring-cloud-config-java-client
 
 ## Usage
-See [tomcat-launcher](https://github.com/pivotalservices/tomcat-launcher)
+See [sample](https://github.com/pivotalservices/spring-cloud-config-java-client/tree/master/sample/src/main/java/io/pivotal/config/client/sample) and [tomcat-launcher](https://github.com/pivotalservices/tomcat-launcher)
 
 
 #### run clean build

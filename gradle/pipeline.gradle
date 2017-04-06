@@ -28,9 +28,12 @@ task e2e(type: Test) {
     include 'e2e/**'
 }
 
-task deploy(dependsOn: 'artifactoryPublish') {
+task deploy(dependsOn: 'publish') {
     description = "Abstraction over publishing artifacts to Artifactory / Nexus"
 }
+// task deploy(dependsOn: 'artifactoryPublish') {
+//     description = "Abstraction over publishing artifacts to Artifactory / Nexus"
+// }
 
 task repoKey << {
     println repoKey

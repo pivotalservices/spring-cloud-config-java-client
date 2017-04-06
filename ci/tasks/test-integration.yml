@@ -5,7 +5,6 @@ image_resource:
   source:
     repository: springcloud/pipeline-base
 inputs:
-  - name: tools
   - name: repo
   - name: version
   - name: m2
@@ -14,4 +13,4 @@ outputs:
 run:
   path: /bin/bash
   args:
-    - tools/concourse/tasks/test-smoke.sh
+    - repo/ci/tasks/test-smoke.sh

@@ -35,8 +35,7 @@ jobs:
   public: true
   plan:
     - aggregate:
-      - get: spring-cloud-config-client
-        resource: repo
+      - get: repo
         trigger: true
       - get: version
     - task: generate-version
@@ -51,15 +50,14 @@ jobs:
 - name: build-and-upload
   plan:
   - aggregate:
-    - get: spring-cloud-config-client
-      resource: repo
+    - get: repo
     - get: m2
     - get: version
       resource: version
       passed: [ generate-version ]
       trigger: true
     - task: build-and-upload
-      file: spring-cloud-config-client/ci/build-and-upload.yml
+      file: repo/ci/build-and-upload.yml
       params:
         - _JAVA_OPTIONS: -Djava.security.egd=file:/dev/./urandom
         - M2_SETTINGS_REPO_ID: {{m2-settings-repo-id}}

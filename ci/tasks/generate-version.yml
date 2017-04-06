@@ -6,10 +6,9 @@ image_resource:
     repository: springcloud/pipeline-base
 inputs:
   - name: version
-  - name: tools
 outputs:
   - name: out
 run:
   path: /bin/bash
   args:
-    - tools/concourse/tasks/generate-version.sh
+    - repo/ci/tasks/generate-version.sh

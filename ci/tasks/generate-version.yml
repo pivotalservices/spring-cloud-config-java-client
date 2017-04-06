@@ -6,6 +6,7 @@ image_resource:
     repository: springcloud/pipeline-base
 inputs:
   - name: version
+  - name: repo
 outputs:
   - name: out
 run:

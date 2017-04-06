@@ -31,7 +31,6 @@ jobs:
       trigger: true
     - get: m2
     - get: version
-      params: {pre: rc}
   - task: build-and-upload
     file: repo/ci/tasks/build-and-upload.yml
     params:

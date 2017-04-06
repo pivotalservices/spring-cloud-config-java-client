@@ -2,7 +2,6 @@ buildscript {
     ext {
         springBootVersion = '1.4.5.RELEASE'
         springCloudVersion = '1.2.3.RELEASE'
-        buildNrLoc = project.hasProperty('buildNr') ? "${buildNr}" : "0.0.1-SNAPSHOT"
     }
     repositories {
         mavenLocal()
@@ -21,9 +20,27 @@ apply plugin: 'idea'
 apply plugin: 'propdeps'
 apply plugin: 'propdeps-maven'
 apply plugin: 'propdeps-idea'
+apply plugin: 'maven-publish'
+apply from: 'gradle/pipeline.gradle'
 
 group = 'io.pivotal'
-version = buildNrLoc
+version = getProp('newVersion') ?: '0.0.1-SNAPSHOT'
+
+ext {
+	projectGroupId = project.group
+	projectArtifactId = project.name
+	projectVersion = project.version
+}
+
+repositories {
+	mavenCentral()
+	mavenLocal()
+	if (getProp("M2_LOCAL")) {
+		maven {
+			url getProp("M2_LOCAL")
+		}
+	}
+}
 
 sourceCompatibility = '1.8'
 targetCompatibility = '1.8'
@@ -40,6 +57,28 @@ repositories {
     mavenCentral()
     maven { url "https://repo.spring.io/release" }
     maven { url "https://repo.spring.io/milestone" }
+}
+
+publishing {
+	repositories {
+		maven {
+			url getProp('REPO_WITH_JARS') ?: 'http://localhost:8081/artifactory/libs-release-local'
+			credentials {
+				username getProp('M2_SETTINGS_REPO_USERNAME') ?: 'admin'
+				password getProp('M2_SETTINGS_REPO_PASSWORD') ?: 'password'
+			}
+		}
+	}
+	publications {
+		mavenJava(MavenPublication) {
+			artifactId project.name
+			from components.java
+		}
+	}
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '3.2.1'
 }
 
 sourceSets {
@@ -93,3 +132,9 @@ task integrationTest(type: Test) {
 
 check.dependsOn integrationTest
 integrationTest.mustRunAfter test
+
+String getProp(String propName) {
+	return hasProperty(propName) ?
+			(getProperty(propName) ?: System.properties[propName]) : System.properties[propName] ?:
+			System.getenv(propName)
+}

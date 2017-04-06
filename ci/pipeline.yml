@@ -37,6 +37,7 @@ jobs:
     - aggregate:
       - get: spring-cloud-config-client
         resource: repo
+        trigger: true
       - get: version
     - task: generate-version
       file: repo/ci/tasks/generate-version.yml

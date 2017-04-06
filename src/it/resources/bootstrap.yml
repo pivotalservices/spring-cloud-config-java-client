@@ -1,7 +1,0 @@
-spring:
-  cloud:
-    config:
-      failFast: true
-config:
-  client:
-    config-server-url: http://localhost:8888

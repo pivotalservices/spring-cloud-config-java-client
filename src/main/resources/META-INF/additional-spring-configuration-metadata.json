@@ -1,8 +1,0 @@
-{
-  "properties": [
-    {
-      "name": "config.client.config-server-url",
-      "type": "java.lang.String",
-      "description": "Url of the config server to connect to."
-  }
-] }

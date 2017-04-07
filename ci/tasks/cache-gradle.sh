@@ -19,7 +19,7 @@ if [ "$1" == "init" ]; then
 fi
 
 cd ${REPO_RESOURCE}
-./gradlew --full-stacktrace --parallel --no-daemon clean build test --project-cache-dir ${GRADLE_USER_HOME}
+./gradlew --full-stacktrace --parallel --no-daemon clean build test -x integrationTest --project-cache-dir ${GRADLE_USER_HOME}
 cd ${ROOT_FOLDER}/${M2_REPO}/..
 tar -C rootfs -cf rootfs.tar .
 mv rootfs.tar ${ROOT_FOLDER}/to-push/

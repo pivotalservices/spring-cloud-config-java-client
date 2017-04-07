@@ -14,13 +14,6 @@ resources:
     repository: malston/spring-pipeline-m2
 
 - name: version
-  type: git
-  source:
-    uri: {{app-url}}
-    branch: version
-    private_key: {{github-private-key}}
-
-- name: version
   type: semver
   source:
     initial_version: 0.0.1

@@ -3,7 +3,7 @@
 mkdir -p ${HOME}/.m2
 mkdir -p ${HOME}/.gradle
 
-ROOT_IN_M2_RESOURCE="${ROOT_FOLDER}/${M2_REPO}/root"
+ROOT_IN_M2_RESOURCE="${ROOT_FOLDER}/${M2_REPO}"
 export M2_HOME="${ROOT_IN_M2_RESOURCE}/.m2"
 export NEW_LOCAL_REPO="${M2_HOME}/repository/"
 

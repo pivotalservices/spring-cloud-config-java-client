@@ -11,6 +11,9 @@ cp ${ROOT_FOLDER}/${REPO_RESOURCE}/ci/common/* ${SCRIPTS_OUTPUT_FOLDER}/
 echo "Retrieving version"
 cp ${ROOT_FOLDER}/${VERSION_RESOURCE}/version ${SCRIPTS_OUTPUT_FOLDER}/
 export PIPELINE_VERSION=$( cat ${SCRIPTS_OUTPUT_FOLDER}/${VERSION_RESOURCE} )
+if [[ ${SNAPSHOT} == "true" ]]; then
+  PIPELINE_VERSION="${VERSION}-SNAPSHOT"
+fi
 echo "Retrieved version is [${PIPELINE_VERSION}]"
 
 export CI="CONCOURSE"

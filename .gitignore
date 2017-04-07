@@ -30,3 +30,4 @@ nbdist/
 credentials.yml
 credentials-*.yml
 !credentials-sample.yml
+keys/

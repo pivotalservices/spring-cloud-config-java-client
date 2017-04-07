@@ -11,27 +11,50 @@ resources:
 - name: m2
   type: docker-image
   source:
-    repository: springcloud/spring-pipeline-m2
+    repository: malston/spring-pipeline-m2
 
 - name: version
-  type: semver
+  type: git
   source:
-    initial_version: 0.0.1-rc.1
-    driver: git
     uri: {{app-url}}
     branch: version
-    file: version
     private_key: {{github-private-key}}
 
+# - name: version
+#   type: semver
+#   source:
+#     initial_version: 0.0.1
+#     driver: git
+#     uri: {{app-url}}
+#     branch: version
+#     file: version
+#     private_key: {{github-private-key}}
+
 jobs:
-- name: build-and-upload
+- name: generate-version
+  public: true
   plan:
   - aggregate:
     - get: repo
       trigger: true
+    - get: version
+  - task: generate-version
+    file: repo/ci/tasks/generate-version.yml
+    params:
+      - GIT_EMAIL: {{git-email}}
+      - GIT_NAME: {{git-name}}
+  - put: version
+    params:
+      repository: out
+
+- name: build-and-upload
+  plan:
+  - aggregate:
+    - get: repo
     - get: m2
     - get: version
-      params: {pre: rc}
+      passed: [ generate-version ]
+      trigger: true
   - task: build-and-upload
     file: repo/ci/tasks/build-and-upload.yml
     params:
@@ -41,11 +64,8 @@ jobs:
       - M2_SETTINGS_REPO_PASSWORD: {{m2-settings-repo-password}}
       - REPO_WITH_JARS: {{repo-with-jars}}
       - M2_REPO: {{maven-local-dir}}
-  - aggregate:
-    - put: version
-      params: {pre: rc}
-    - put: repo
-      params:
-        repository: out
-        tag: out/tag
-        only_tag: true
+  - put: repo
+    params:
+      repository: out
+      tag: out/tag
+      only_tag: true

@@ -2,16 +2,14 @@
 
 export ROOT_FOLDER=$( pwd )
 export REPO_RESOURCE=repo
-export TOOLS_RESOURCE=tools
 export VERSION_RESOURCE=version
 export OUTPUT_RESOURCE=out
 
 echo "Root folder is [${ROOT_FOLDER}]"
 echo "Repo resource folder is [${REPO_RESOURCE}]"
-echo "Tools resource folder is [${TOOLS_RESOURCE}]"
 echo "Version resource folder is [${VERSION_RESOURCE}]"
 
-source ${ROOT_FOLDER}/${TOOLS_RESOURCE}/concourse/tasks/pipeline.sh
+source ${ROOT_FOLDER}/${REPO_RESOURCE}/ci/tasks/pipeline.sh
 
 M2_LOCAL=${ROOT_FOLDER}/${M2_REPO}/repository
 echo "Changing the maven local to [${M2_LOCAL}]"

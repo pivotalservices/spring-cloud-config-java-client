@@ -24,10 +24,12 @@ resources:
     private_key: {{github-private-key}}
 
 jobs:
-- name: build-and-upload-snapshot
+- name: create-snapshot
+  serial_groups: [version]
   plan:
   - aggregate:
     - get: repo
+      trigger: true
     - get: m2
     - get: version
   - task: build-and-upload
@@ -49,7 +51,8 @@ jobs:
     - put: version
       params: {bump: patch}
 
-- name: build-and-upload-release
+- name: create-release
+  serial_groups: [version]
   plan:
   - aggregate:
     - get: repo
@@ -64,7 +67,6 @@ jobs:
       - M2_SETTINGS_REPO_PASSWORD: {{m2-settings-repo-password}}
       - REPO_WITH_JARS: {{release-repo-with-jars}}
       - M2_REPO: {{maven-local-dir}}
-      - SNAPSHOT: false
   - aggregate:
     - put: repo
       params:

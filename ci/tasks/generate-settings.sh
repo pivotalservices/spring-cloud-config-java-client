@@ -37,6 +37,6 @@ repoPassword=${M2_SETTINGS_REPO_PASSWORD}
 EOF
 echo "gradle.properties written"
 
-# echo "Moving [${GRADLE_USER_HOME}] [${HOME}] folder"
+# echo "Moving [${NEW_LOCAL_REPO}] [${HOME}] folder"
 # mv ${NEW_LOCAL_REPO} ${HOME}/.m2/repository
-# mv ${GRADLE_USER_HOME}/wrapper ${HOME}/.gradle/wrapper
+# mv ${M2_HOME}/wrapper ${HOME}/.m2/wrapper

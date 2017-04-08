@@ -38,5 +38,5 @@ EOF
 echo "gradle.properties written"
 
 echo "Moving [${NEW_LOCAL_REPO}] [${HOME}] folder"
-mv ${NEW_LOCAL_REPO} ${HOME}/.m2/repository
+# mv ${NEW_LOCAL_REPO} ${HOME}/.m2/repository
 mv ${GRADLE_USER_HOME}/wrapper ${HOME}/.m2/wrapper

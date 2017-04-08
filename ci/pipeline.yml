@@ -39,6 +39,7 @@ jobs:
       - M2_SETTINGS_REPO_PASSWORD: {{m2-settings-repo-password}}
       - REPO_WITH_JARS: {{repo-with-jars}}
       - M2_REPO: {{maven-local-dir}}
+      - SNAPSHOT: true
   - aggregate:
     - put: repo
       params:

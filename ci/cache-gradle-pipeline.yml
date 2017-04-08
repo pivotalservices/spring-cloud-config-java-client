@@ -46,7 +46,7 @@ jobs:
            - repo/ci/tasks/cache-gradle.sh
            - init
       params:
-       - M2_REPO: {{maven-local-dir}}
+       - M2_REPO: m2/rootfs/root
        - M2_SETTINGS_REPO_ID: {{m2-settings-repo-id}}
        - M2_SETTINGS_REPO_USERNAME: {{m2-settings-repo-username}}
        - M2_SETTINGS_REPO_PASSWORD: {{m2-settings-repo-password}}
@@ -75,7 +75,7 @@ jobs:
           args:
             - repo/ci/tasks/cache-gradle.sh
       params:
-       - M2_REPO: {{maven-local-dir}}
+       - M2_REPO: m2/rootfs/root
        - M2_SETTINGS_REPO_ID: {{m2-settings-repo-id}}
        - M2_SETTINGS_REPO_USERNAME: {{m2-settings-repo-username}}
        - M2_SETTINGS_REPO_PASSWORD: {{m2-settings-repo-password}}

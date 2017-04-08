@@ -9,7 +9,7 @@ echo "Root folder is [${ROOT_FOLDER}]"
 echo "Repo resource folder is [${REPO_RESOURCE}]"
 echo "Version resource folder is [${VERSION_RESOURCE}]"
 
-export GRADLE_USER_HOME=${ROOT_FOLDER}/${M2_REPO}/repository
+export GRADLE_USER_HOME=${ROOT_FOLDER}/${M2_REPO}
 export GRADLE_OPTS=-Dorg.gradle.native=false
 
 echo "Gradle user home folder is [${GRADLE_USER_HOME}]"

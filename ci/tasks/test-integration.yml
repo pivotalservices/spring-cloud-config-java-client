@@ -13,4 +13,4 @@ outputs:
 run:
   path: /bin/bash
   args:
-    - repo/ci/tasks/test-smoke.sh
+    - repo/ci/tasks/test-integration.sh

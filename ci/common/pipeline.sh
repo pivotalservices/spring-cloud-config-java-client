@@ -389,6 +389,10 @@ function retrieveArtifactId() {
     fi
 }
 
+function prepareForIntegrationTests() {
+  #setup test fixtures required by integration tests
+}
+
 # Jenkins passes these as a separate step, in Concourse we'll do it manually
 function prepareForSmokeTests() {
     local redownloadInfra="${1}"

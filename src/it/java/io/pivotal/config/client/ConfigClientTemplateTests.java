@@ -1,7 +1,10 @@
 package io.pivotal.config.client;
 
 import io.pivotal.config.server.TestConfigServer;
-import org.junit.*;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Rule;
+import org.junit.Test;
 import org.junit.contrib.java.lang.system.EnvironmentVariables;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -10,8 +13,6 @@ import org.springframework.core.env.CompositePropertySource;
 import org.springframework.core.env.PropertySource;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import java.util.concurrent.Executors;
 
 import static java.util.stream.Collectors.toList;
 import static org.hamcrest.Matchers.contains;
@@ -32,17 +33,8 @@ public class ConfigClientTemplateTests {
     private static ConfigurableApplicationContext context;
 
     @BeforeClass
-    public static void delayConfigServer() {
-        Executors.newSingleThreadExecutor().execute(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(2000L);
-                } catch (InterruptedException e) {
-                }
-                context = TestConfigServer.start();
-            }
-        });
+    public static void testConfigServer() {
+        context = TestConfigServer.start();
     }
 
     @AfterClass
@@ -69,11 +61,12 @@ public class ConfigClientTemplateTests {
         ConfigClientTemplate<?> configClientTemplate = new ConfigClientTemplate<CompositePropertySource>("http://localhost:8888", "foo",
                 new String[]{"development, db"});
         CompositePropertySource source = (CompositePropertySource) configClientTemplate.getPropertySource();
-        assertThat("property sources", source.getPropertySources().size(), equalTo(8));
+        assertThat("property sources", source.getPropertySources().size(), equalTo(9));
         assertThat(source.getPropertySources().stream()
                         .map(PropertySource::getName)
                         .collect(toList()),
-                contains("https://github.com/malston/config-repo/foo-db.properties",
+                contains("configClient",
+                        "https://github.com/malston/config-repo/foo-db.properties",
                         "https://github.com/malston/config-repo/foo-development.properties",
                         "https://github.com/malston/config-repo/foo.properties",
                         "https://github.com/malston/config-repo/application.yml",
@@ -99,7 +92,7 @@ public class ConfigClientTemplateTests {
         PropertySource<?> source = configClientTemplate.getPropertySource();
         assertNotNull(source);
         String foo = (String) configClientTemplate.getPropertySource().getProperty("foo");
-        assertEquals(foo, "baz");
+        assertEquals("baz", foo);
     }
 
     @Test

@@ -59,6 +59,7 @@ jobs:
   plan:
   - aggregate:
     - get: repo
+      passed: [create-snapshot]
     - get: m2
     - get: version
   - aggregate:

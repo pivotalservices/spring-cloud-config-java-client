@@ -80,6 +80,7 @@ jobs:
       inputs:
         - name: repo
         - name: version
+        - name: m2
       outputs:
         - name: out
       run:

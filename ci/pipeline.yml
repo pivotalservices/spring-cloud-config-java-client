@@ -25,7 +25,7 @@ resources:
 
 jobs:
 - name: create-snapshot
-  serial_groups: [version]
+  serial_groups: [version, repo]
   plan:
   - aggregate:
     - get: repo
@@ -55,7 +55,7 @@ jobs:
         - SNAPSHOT: true
 
 - name: create-release
-  serial_groups: [version]
+  serial_groups: [version, repo]
   plan:
   - aggregate:
     - get: repo

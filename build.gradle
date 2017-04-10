@@ -24,7 +24,7 @@ apply plugin: 'maven-publish'
 apply from: 'gradle/pipeline.gradle'
 
 group = 'io.pivotal'
-version = getProp('newVersion') ?: '0.0.1-SNAPSHOT'
+version = getProp('newVersion') ?: "${buildVersion}"
 
 ext {
 	projectGroupId = project.group

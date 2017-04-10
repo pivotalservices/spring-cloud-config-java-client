@@ -390,7 +390,8 @@ function retrieveArtifactId() {
 }
 
 function prepareForIntegrationTests() {
-  #setup test fixtures required by integration tests
+  # setup test fixtures required by integration tests
+  echo "Preparing for integration tests"
 }
 
 # Jenkins passes these as a separate step, in Concourse we'll do it manually

@@ -78,7 +78,7 @@ jobs:
         - M2_SETTINGS_REPO_ID: {{m2-settings-repo-id}}
         - M2_SETTINGS_REPO_USERNAME: {{m2-settings-repo-username}}
         - M2_SETTINGS_REPO_PASSWORD: {{m2-settings-repo-password}}
-        - REPO_WITH_JARS: {{snapshot-repo-with-jars}}
+        - REPO_WITH_JARS: {{release-repo-with-jars}}
         - M2_REPO: {{maven-local-dir}}
   - task: tag-release
     config:

@@ -31,31 +31,42 @@ task e2e(type: Test) {
 task deploy(dependsOn: 'publish') {
     description = "Abstraction over publishing artifacts to Artifactory / Nexus"
 }
+
 // task deploy(dependsOn: 'artifactoryPublish') {
 //     description = "Abstraction over publishing artifacts to Artifactory / Nexus"
 // }
 
-task repoKey << {
-    println repoKey
+task repoKey {
+    doLast {
+        println repoKey
+    }
 }
 
-task groupId << {
-    println projectGroupId
+task groupId {
+    doLast {
+        println projectGroupId
+    }
 }
 groupId.description = "Task to retrieve Group ID"
 
-task artifactId << {
-    println projectArtifactId
+task artifactId {
+    doLast {
+        println projectArtifactId
+    }
 }
 artifactId.description = "Task to retrieve Artifact ID"
 
-task currentVersion << {
-    println projectVersion
+task currentVersion {
+    doLast {
+        println projectVersion
+    }
 }
 currentVersion.description = "Task to retrieve version"
 
-task stubIds << {
-    println stubrunnerIds
+task stubIds {
+    doLast {
+        println stubrunnerIds
+    }
 }
 stubIds.description = "Task to retrieve Stub Runner IDS"
 

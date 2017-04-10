@@ -53,14 +53,11 @@ jobs:
         - REPO_WITH_JARS: {{snapshot-repo-with-jars}}
         - M2_REPO: {{maven-local-dir}}
         - SNAPSHOT: true
-  - aggregate:
     - put: repo
       params:
         repository: out
         tag: out/tag
         only_tag: true
-    - put: version
-      params: {bump: patch}
 
 - name: create-release
   serial_groups: [version]

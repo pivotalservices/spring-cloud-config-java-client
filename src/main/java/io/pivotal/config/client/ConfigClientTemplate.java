@@ -2,7 +2,6 @@ package io.pivotal.config.client;
 
 import org.apache.commons.logging.Log;
 import org.springframework.boot.context.config.ConfigFileApplicationListener;
-import org.springframework.boot.context.config.RandomValuePropertySource;
 import org.springframework.boot.env.EnumerableCompositePropertySource;
 import org.springframework.boot.logging.DeferredLog;
 import org.springframework.cloud.config.client.ConfigServicePropertySourceLocator;

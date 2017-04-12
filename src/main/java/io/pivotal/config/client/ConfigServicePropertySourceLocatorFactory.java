@@ -40,9 +40,9 @@ public class ConfigServicePropertySourceLocatorFactory {
         ConfigServicePropertySourceLocator locator = new ConfigServicePropertySourceLocator(defaults);
         ClientCredentialsResourceDetails ccrd = new ClientCredentialsResourceDetails();
         ccrd.setAccessTokenUri("https://p-spring-cloud-services.uaa.cf.markalston.net/oauth/token");
-        ccrd.setClientId("p-config-server-2393fa19-18ab-4413-81ed-1421945cecc8");
-        ccrd.setClientSecret("ZpikhJDSCKaU");
-        locator.setRestTemplate(new OAuth2RestTemplate(new ClientCredentialsResourceDetails()));
+        ccrd.setClientId("p-config-server-295a481e-a710-426f-bae6-166a8b692ab9");
+        ccrd.setClientSecret("ny7qIeAu7zFr");
+        locator.setRestTemplate(new OAuth2RestTemplate(ccrd));
         return locator;
     }
 

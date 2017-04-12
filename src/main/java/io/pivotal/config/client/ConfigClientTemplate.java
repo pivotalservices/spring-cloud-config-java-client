@@ -13,6 +13,7 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.util.Assert;
 import org.springframework.util.ResourceUtils;
 import org.springframework.util.StringUtils;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.util.*;
@@ -25,22 +26,23 @@ public class ConfigClientTemplate<T> implements io.pivotal.config.client.Propert
 
     private final ConfigServicePropertySourceLocatorFactory configServicePropertySourceLocatorFactory = new ConfigServicePropertySourceLocatorFactory();
 
-    private ConfigClientTemplate(final String configServerUrl, final String app, final String[] profiles, final ConfigurableEnvironment environment) {
+    private ConfigClientTemplate(final RestTemplate restTemplate, final String configServerUrl, final String app, final String[] profiles, final ConfigurableEnvironment environment) {
         this.locator = configServicePropertySourceLocatorFactory.newConfigServicePropertySourceLocator(configServerUrl, app, profiles, environment);
+        this.locator.setRestTemplate(restTemplate);
         this.configFileEnvironmentProcessor = new ConfigFileEnvironmentProcessor(environment, this.locator);
     }
 
-    public ConfigClientTemplate(final String configServerUrl, final String app, final String[] profiles, final boolean failFast, final ConfigurableEnvironment env) {
-        this(configServerUrl, app, profiles, env);
+    public ConfigClientTemplate(final RestTemplate restTemplate, final String configServerUrl, final String app, final String[] profiles, final boolean failFast, final ConfigurableEnvironment env) {
+        this(restTemplate, configServerUrl, app, profiles, env);
         this.configServicePropertySourceLocatorFactory.getConfigClientProperties().setFailFast(failFast);
     }
 
-    public ConfigClientTemplate(final String configServerUrl, final String app, final String[] profiles, final boolean failFast) {
-        this(configServerUrl, app, profiles, failFast, new StandardEnvironment());
+    public ConfigClientTemplate(final RestTemplate restTemplate, final String configServerUrl, final String app, final String[] profiles, final boolean failFast) {
+        this(restTemplate, configServerUrl, app, profiles, failFast, new StandardEnvironment());
     }
 
     public ConfigClientTemplate(final String configServerUrl, final String app, final String[] profiles) {
-        this(configServerUrl, app, profiles, false);
+        this(null, configServerUrl, app, profiles, false);
     }
 
     public ConfigClientTemplate(final ConfigServicePropertySourceLocator locator, final ConfigurableEnvironment environment) {

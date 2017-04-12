@@ -5,8 +5,6 @@ import org.springframework.cloud.config.client.ConfigClientProperties;
 import org.springframework.cloud.config.client.ConfigServicePropertySourceLocator;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.MapPropertySource;
-import org.springframework.security.oauth2.client.OAuth2RestTemplate;
-import org.springframework.security.oauth2.client.token.grant.client.ClientCredentialsResourceDetails;
 import org.springframework.util.Assert;
 
 import java.util.HashMap;
@@ -37,16 +35,11 @@ public class ConfigServicePropertySourceLocatorFactory {
         }
         this.defaults = new ConfigClientProperties(environment);
         this.defaults.setUri(configServerUrl);
-        ConfigServicePropertySourceLocator locator = new ConfigServicePropertySourceLocator(defaults);
-        ClientCredentialsResourceDetails ccrd = new ClientCredentialsResourceDetails();
-        ccrd.setAccessTokenUri("https://p-spring-cloud-services.uaa.cf.markalston.net/oauth/token");
-        ccrd.setClientId("p-config-server-295a481e-a710-426f-bae6-166a8b692ab9");
-        ccrd.setClientSecret("ny7qIeAu7zFr");
-        locator.setRestTemplate(new OAuth2RestTemplate(ccrd));
-        return locator;
+        return new ConfigServicePropertySourceLocator(defaults);
     }
 
     public ConfigClientProperties getConfigClientProperties() {
         return defaults;
     }
+
 }

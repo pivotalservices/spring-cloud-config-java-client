@@ -18,6 +18,7 @@ public class TestConfigServer {
 		return new SpringApplicationBuilder(TestConfigServer.class)
 				.bannerMode(Mode.OFF)
 				.properties("server.port=8888",
+						"security.basic.enabled=false",
 						"spring.cloud.config.server.native.searchLocation:file:./src/it/resources/config/",
 						"spring.cloud.config.server.git.uri=https://github.com/malston/config-repo",
 						"spring.cloud.config.server.git.basedir=build/config")

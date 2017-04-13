@@ -1,18 +1,19 @@
 package io.pivotal.config.client;
 
 import io.pivotal.config.server.TestConfigServer;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Rule;
-import org.junit.Test;
+import io.pivotal.springcloud.ssl.CloudFoundryCertificateTruster;
+import org.junit.*;
 import org.junit.contrib.java.lang.system.EnvironmentVariables;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.CompositePropertySource;
 import org.springframework.core.env.PropertySource;
+import org.springframework.security.oauth2.client.OAuth2RestTemplate;
+import org.springframework.security.oauth2.client.token.grant.client.ClientCredentialsResourceDetails;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.web.client.RestTemplate;
 
 import static java.util.stream.Collectors.toList;
 import static org.hamcrest.Matchers.contains;
@@ -80,6 +81,24 @@ public class ConfigClientTemplateTests {
     public void testDefaultProperties() throws Exception {
         ConfigClientTemplate<?> configClientTemplate = new ConfigClientTemplate<CompositePropertySource>("http://localhost:8888", "foo",
                 new String[]{"default"});
+        assertNotNull(configClientTemplate.getPropertySource());
+        assertEquals("from foo props", configClientTemplate.getPropertySource().getProperty("foo"));
+        assertEquals("test", configClientTemplate.getPropertySource().getProperty("testprop"));
+    }
+
+    @Test
+    @Ignore
+    public void testOauth() throws Exception {
+        environmentVariables.set("TRUST_CERTS", "api.cf.markalston.net");
+        CloudFoundryCertificateTruster.trustCertificates();
+        ClientCredentialsResourceDetails ccrd = new ClientCredentialsResourceDetails();
+        ccrd.setAccessTokenUri("https://p-spring-cloud-services.uaa.cf.markalston.net/oauth/token");
+        ccrd.setClientId("p-config-server-295a481e-a710-426f-bae6-166a8b692ab9");
+        ccrd.setClientSecret("ny7qIeAu7zFr");
+
+        RestTemplate restTemplate = new OAuth2RestTemplate(ccrd);
+        ConfigClientTemplate<?> configClientTemplate = new ConfigClientTemplate<CompositePropertySource>(restTemplate, "https://config-b03abf7e-8e74-4218-804a-306c2885f366.cf.markalston.net", "hello-tomcat",
+                new String[]{"default"}, true);
         assertNotNull(configClientTemplate.getPropertySource());
         assertEquals("from foo props", configClientTemplate.getPropertySource().getProperty("foo"));
         assertEquals("test", configClientTemplate.getPropertySource().getProperty("testprop"));

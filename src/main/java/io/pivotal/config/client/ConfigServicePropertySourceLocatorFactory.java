@@ -41,4 +41,5 @@ public class ConfigServicePropertySourceLocatorFactory {
     public ConfigClientProperties getConfigClientProperties() {
         return defaults;
     }
+
 }

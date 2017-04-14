@@ -1,8 +1,10 @@
 package io.pivotal.config.client;
 
 import io.pivotal.config.server.TestConfigServer;
-import io.pivotal.springcloud.ssl.CloudFoundryCertificateTruster;
-import org.junit.*;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Rule;
+import org.junit.Test;
 import org.junit.contrib.java.lang.system.EnvironmentVariables;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,6 +16,13 @@ import org.springframework.security.oauth2.client.token.grant.client.ClientCrede
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
+
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+import java.security.GeneralSecurityException;
+import java.security.cert.X509Certificate;
 
 import static java.util.stream.Collectors.toList;
 import static org.hamcrest.Matchers.contains;
@@ -87,10 +96,8 @@ public class ConfigClientTemplateTests {
     }
 
     @Test
-    @Ignore
     public void testOauth() throws Exception {
-        environmentVariables.set("TRUST_CERTS", "api.cf.markalston.net");
-        CloudFoundryCertificateTruster.trustCertificates();
+        trustAllCertificates();
         ClientCredentialsResourceDetails ccrd = new ClientCredentialsResourceDetails();
         ccrd.setAccessTokenUri("https://p-spring-cloud-services.uaa.cf.markalston.net/oauth/token");
         ccrd.setClientId("p-config-server-295a481e-a710-426f-bae6-166a8b692ab9");
@@ -126,4 +133,30 @@ public class ConfigClientTemplateTests {
         assertEquals(test, "foobar");
     }
 
+    private void trustAllCertificates() {
+        // Create a trust manager that does not validate certificate chains
+        TrustManager[] trustAllCerts = new TrustManager[]{
+                new X509TrustManager() {
+                    public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+                        return new X509Certificate[0];
+                    }
+
+                    public void checkClientTrusted(
+                            java.security.cert.X509Certificate[] certs, String authType) {
+                    }
+
+                    public void checkServerTrusted(
+                            java.security.cert.X509Certificate[] certs, String authType) {
+                    }
+                }
+        };
+        // Install the all-trusting trust manager
+        try {
+            SSLContext sc = SSLContext.getInstance("SSL");
+            sc.init(null, trustAllCerts, new java.security.SecureRandom());
+            HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+        } catch (GeneralSecurityException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

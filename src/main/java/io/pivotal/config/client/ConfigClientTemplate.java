@@ -27,8 +27,7 @@ public class ConfigClientTemplate<T> implements io.pivotal.config.client.Propert
     private final ConfigServicePropertySourceLocatorFactory configServicePropertySourceLocatorFactory = new ConfigServicePropertySourceLocatorFactory();
 
     private ConfigClientTemplate(final RestTemplate restTemplate, final String configServerUrl, final String app, final String[] profiles, final ConfigurableEnvironment environment) {
-        this.locator = configServicePropertySourceLocatorFactory.newConfigServicePropertySourceLocator(configServerUrl, app, profiles, environment);
-        this.locator.setRestTemplate(restTemplate);
+        this.locator = configServicePropertySourceLocatorFactory.newConfigServicePropertySourceLocator(restTemplate, configServerUrl, app, profiles, environment);
         this.configFileEnvironmentProcessor = new ConfigFileEnvironmentProcessor(environment, this.locator);
     }
 
@@ -57,6 +56,11 @@ public class ConfigClientTemplate<T> implements io.pivotal.config.client.Propert
 
     public PropertySource<?> getPropertySource() {
         return configFileEnvironmentProcessor.getPropertySource();
+    }
+
+    public void setSearchLocations(String locations) {
+        Assert.notNull(configFileEnvironmentProcessor);
+        this.configFileEnvironmentProcessor.setSearchLocations(locations);
     }
 
     static final class ConfigFileEnvironmentProcessor extends ConfigFileApplicationListener

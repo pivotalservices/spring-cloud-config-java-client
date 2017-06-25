@@ -12,6 +12,7 @@ import org.springframework.cloud.config.client.ConfigClientProperties;
 import org.springframework.cloud.config.client.ConfigServicePropertySourceLocator;
 import org.springframework.cloud.config.environment.Environment;
 import org.springframework.core.env.ConfigurableEnvironment;
+import org.springframework.core.env.PropertySource;
 import org.springframework.core.env.StandardEnvironment;
 import org.springframework.http.*;
 import org.springframework.http.client.ClientHttpRequest;
@@ -23,8 +24,7 @@ import org.springframework.web.client.RestTemplate;
 import java.io.ByteArrayInputStream;
 import java.net.URI;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 
 public class ConfigClientTemplateTests {
 
@@ -67,6 +67,18 @@ public class ConfigClientTemplateTests {
         this.locator.setRestTemplate(this.restTemplate);
         ConfigClientTemplate<?> configClientTemplate = new ConfigClientTemplate<>(this.locator, this.environment);
         assertNotNull(configClientTemplate.getPropertySource());
+    }
+
+    @Test
+    public void sunnyDayWithSearchLocations() {
+        mockRequestResponseWithLabel(new ResponseEntity<Void>((Void) null,
+                HttpStatus.NOT_FOUND), "nosuchlabel");
+        this.locator.setRestTemplate(this.restTemplate);
+        ConfigClientTemplate<?> configClientTemplate = new ConfigClientTemplate<>(this.locator, this.environment);
+        configClientTemplate.setSearchLocations("classpath:/");
+        assertNotNull(configClientTemplate.getPropertySource());
+        PropertySource source = configClientTemplate.getPropertySource();
+        assertEquals("test", source.getProperty("testprop"));
     }
 
     @Test
@@ -141,7 +153,7 @@ public class ConfigClientTemplateTests {
                 this.restTemplate.exchange(Mockito.any(String.class),
                         Mockito.any(HttpMethod.class), Mockito.any(HttpEntity.class),
                         Mockito.any(Class.class), Matchers.anyString(),
-                        Matchers.anyString(), Matchers.eq(label))).thenReturn(response);
+                        Matchers.anyString(), Matchers.eq(label))).thenReturn((ResponseEntity<Object>) response);
     }
 
     @SuppressWarnings("unchecked")

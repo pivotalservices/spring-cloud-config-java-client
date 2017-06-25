@@ -6,6 +6,7 @@ import org.springframework.cloud.config.client.ConfigServicePropertySourceLocato
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.MapPropertySource;
 import org.springframework.util.Assert;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,7 +19,7 @@ public class ConfigServicePropertySourceLocatorFactory {
 
     private ConfigClientProperties defaults;
 
-    public final ConfigServicePropertySourceLocator newConfigServicePropertySourceLocator(final String configServerUrl, final String app, String[] profiles, ConfigurableEnvironment environment) {
+    public final ConfigServicePropertySourceLocator newConfigServicePropertySourceLocator(final RestTemplate restTemplate, final String configServerUrl, final String app, String[] profiles, ConfigurableEnvironment environment) {
         Assert.hasLength(configServerUrl, "You MUST set the config server URI");
         if (!configServerUrl.startsWith(HTTP_SCHEME) && !configServerUrl.startsWith(HTTPS_SCHEME)) {
             throw new RuntimeException("You MUST put the URI scheme in front of the config server URI");
@@ -35,7 +36,9 @@ public class ConfigServicePropertySourceLocatorFactory {
         }
         this.defaults = new ConfigClientProperties(environment);
         this.defaults.setUri(configServerUrl);
-        return new ConfigServicePropertySourceLocator(defaults);
+        ConfigServicePropertySourceLocator locator = new ConfigServicePropertySourceLocator(defaults);
+        locator.setRestTemplate(restTemplate);
+        return locator;
     }
 
     public ConfigClientProperties getConfigClientProperties() {
